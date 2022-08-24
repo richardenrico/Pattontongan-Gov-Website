@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <img src="{{ data.cover }}" alt="no image">
+    <h5>{{ data.title }}</h5>
+    <p>{{ data.content }}</p>
+    <p>{{ data.author }}</p>
+    <p>{{ data.posted_at.strftime('%Y-%m-%d') }}</p>
+
+    <div class="other-news">
+      <h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
+      <div class="news-wrapper">
+          {% for berita in another_news %}
+          <a href="/berita/{{ berita.slug }}" class="link-dark">
+              <div class="news-card shadow-md p-3  rounded-md">
+                  <!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
+                  <img src="{{ berita.cover }}"/>
+                  <h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
+                  <p class="card-content">{{ berita.content }}...</p>
+                  <div class="card-author mt-3">
+                      <div class="author-img"></div>
+                      <div class="author-detail" style="flex: 1;">
+                          <strong>{{ berita.author }}</strong>
+                          <div style="display: flex;  justify-content: space-between;">
+                              <span>{{ berita.posted_at.strftime('%Y-%m-%d') }}</span>
+                              <strong>Lanjut baca </strong>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </a>
+          {% endfor %}
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

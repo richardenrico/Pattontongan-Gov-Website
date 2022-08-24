@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> 
+    <!-- {% block html %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title> -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- {% block content %}
+    {% endblock %} -->
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <img src="/static/img/logo.png" width="60px" />
+        </div>
+        <ul class="navigation">
+            <a>Beranda</a>
+            <a>Mengenal Pattontongan</a>
+            <a>Pemerintahan</a>
+            <a href="/berita" class="link-dark">Berita</a>
+        </ul>
+    </div>
+    <div class="hero">
+       <div class="hero-title">
+            <h1 id="welcome " class="font-bold text-3xl">Selamat Datang di</h1>
+            <h1 class="text-5xl font-bold" >Desa Pattontongan</h1>
+            <div id="liner" class="mt-5"></div>
+       </div>
+    </div>
+
+    <div class="announcement">
+        <div class="announcement-content">
+            <h2 class="font-bold text-3xl mb-3">Semarak Lomba 17-an Desa Pattontongan</h2>
+
+            <p>Semarak Lomba 17-an Desa Pattontongan akan diadakan dari 14 - 17 Agustus di Lapangan belakang bengkel Al.
+
+            Lomba 17-an diadakan berkat kerjasama antara warga, Karang Taruna, dan mahasiswa KKN Unhas Gelombang 108. Ayo datang meriahkan dan menangkan hadiah menarik.
+            </p>
+        </div>
+        <div class="announcement-cover">
+            <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" />
+        </div>
+    </div>
+    <div class="other-news">
+        <h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
+        <div class="news-wrapper">
+            {% for berita in news %}
+            <a href="/berita/{{ berita.slug }}" class="link-dark">
+                <div class="news-card shadow-md p-3  rounded-md">
+                    <!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
+                    <img src="{{ berita.cover }}"/>
+                    <h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
+                    <p class="card-content">{{ berita.content }}...</p>
+                    <div class="card-author mt-3">
+                        <div class="author-img"></div>
+                        <div class="author-detail" style="flex: 1;">
+                            <strong>{{ berita.author }}</strong>
+                            <div style="display: flex;  justify-content: space-between;">
+                                <span>{{ berita.posted_at.strftime('%Y-%m-%d') }}</span>
+                                <strong>Lanjut baca </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="p-10 bg-[#0C4433] w-screen max-w-full flex space-x-20">
+        <div>
+            <div class="flex items-center space-x-2">
+                <img src="{{url_for('static', filename='img/logo.png')}}" />
+                <img src="{{url_for('static', filename='img/separator.png')}}" />
+                <div>
+                    <h3 class="text-white font-bold text-3xl">Desa <br/> Pattontongan</h3>
+                </div>
+            </div>
+            <div class="mt-10 space-y-5">
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-location-dot text-white text-lg"></i>
+                    <strong>VHW7+5QX, Desa Pattontongan, Kec. Mandai, <br/> Kabupaten Maros, Sulawesi Selatan 90552</strong>
+                </div>
+    
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-phone text-white text-lg"></i>
+                    <strong>+621234567890</strong>
+                </div>
+    
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-envelope-open text-white text-lg"></i>
+                    <strong>johndoe@gmail.com</strong>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1 class="text-3xl font-bold text-white">Halaman</h1>
+            <h2 class="font-bold text-xl text-white mt-3">Beranda</h2>
+            <h2 class="font-bold text-xl text-white mt-3">Mengenal Pattontongan</h2>
+            <p class="text-white">Wisata Mappadendang</p>
+            <h2 class="font-bold text-xl text-white mt-3">Pemerintahan</h2>
+            <p class="text-white">Visi dan Misi</p>
+            <p class="text-white">Aparatur</p>
+        </div>
+    </div>
+</body>
+</html>
