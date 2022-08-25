@@ -15,17 +15,22 @@
     <!-- {% block content %}
     {% endblock %} -->
     <!-- Header -->
-    <div class="header">
-        <div>
-            <img src="/static/img/logo.png" width="60px" />
+    <header>
+        <div class="clock">
+            <span id="time"></span>
         </div>
-        <ul class="navigation">
-            <a>Beranda</a>
-            <a>Mengenal Pattontongan</a>
-            <a>Pemerintahan</a>
-            <a href="/berita" class="link-dark">Berita</a>
-        </ul>
-    </div>
+        <div class="header-main">
+            <div>
+                <img src="/static/img/logo.png" width="60px" />
+            </div>
+            <ul class="navigation">
+                <a>Beranda</a>
+                <a>Mengenal Pattontongan</a>
+                <a>Pemerintahan</a>
+                <a href="/berita" class="link-dark">Berita</a>
+            </ul>
+        </div>
+    </header>
     <div class="hero">
        <div class="hero-title">
             <h1 id="welcome " class="font-bold text-3xl">Selamat Datang di</h1>
@@ -106,5 +111,35 @@
             <p class="text-white">Aparatur</p>
         </div>
     </div>
+
+    <script>
+        (function (){
+            const clock = document.getElementById('time')
+
+            const witHourOffset = 8
+
+            const _date = new Date();
+            const witaHourOffset = witHourOffset*60*60000;
+            const userOffset = _date.getTimezoneOffset()*60000;
+
+            function updateClock(clock){
+                clock.innerHTML = new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleDateString('id', {
+                    weekday: "long",
+                    month: "long",
+                    year: "numeric",
+                    day: "2-digit",
+                });
+
+                clock.innerHTML = `${clock.innerHTML}, ${new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleTimeString('id',{
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }).replace(".", ":")} WITA`
+            }
+
+            setInterval(function(){
+                updateClock(clock)
+            }, 1000)
+        }())
+    </script>
 </body>
 </html>
