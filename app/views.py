@@ -1,8 +1,6 @@
-import datetime
-from unicodedata import category
 from app import app
-from app.models import Announcement, Article, News, Profile, User
-from flask import render_template, request, url_for, redirect
+from app.models import Article, News, Profile, User
+from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
 
 
@@ -25,34 +23,61 @@ def detail(slug):
 
 @app.route('/input/berita', methods=['GET', 'POST'])
 def input_news():
-    # user = User
-    news = News.objects()
-    return render_template('input_forms.html', data=news, endpoint='berita')
+    if 'username' in session:
+        news = News.objects()
+        return render_template('input_forms.html', data=news, endpoint='berita')
+    return redirect(url_for('login'))
 
 @app.route('/input/artikel', methods=['GET', 'POST'])
 def input_article():
-    article = Article.objects()
-    return render_template('input_forms.html', data=article, endpoint='artikel')
+    if 'username' in session:
+        article = Article.objects()
+        return render_template('input_forms.html', data=article, endpoint='artikel')
+    return redirect(url_for('login'))
 
 @app.route('/save/berita', methods=['GET', 'POST'])
 def save_news():
-    news = News(title=request.form['title'])
-    news.cover = request.form['cover']
-    news.content = request.form['content']
-    news.slug = '-'.join(request.form['title'].strip().lower().split(' '))
-    
-    news.save()
-    return redirect(url_for('home'))
+    if 'username' in session:
+        news = News(title=request.form['title'])
+        news.cover = request.form['cover']
+        news.content = request.form['content']
+        news.slug = '-'.join(request.form['title'].strip().lower().split(' '))
+        
+        news.save()
+        return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 @app.route('/save/artikel', methods=['GET', 'POST'])
 def save_article():
-    article = Article(title=request.form['title'])
-    article.cover = request.form['cover']
-    article.content = request.form['content']
-    article.category = request.form['category']
-    
-    article.save()
-    return redirect(url_for('home'))
+    if 'username' in session:
+        article = Article(title=request.form['title'])
+        article.cover = request.form['cover']
+        article.content = request.form['content']
+        article.category = request.form['category']
+        
+        article.save()
+        return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/login')
+def login():
+	if 'username' in session:
+		return redirect(url_for('home'))
+	return render_template('login_form.html')
+
+@app.route('/auth', methods=['GET', 'POST'])
+def auth():
+    user = User.objects(username=request.form['username'], password=request.form['password']).first()
+    password = user.password
+    
+    if user:
+        if(request.form['password'] == password):
+            session['username'] = request.form['username']
+            return redirect(url_for('login'))
+
+    return 'Invalid username/password'
+
+@app.route('/logout')
+def logout():
+	session.clear()
+	return redirect(url_for('home'))
