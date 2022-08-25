@@ -13,18 +13,17 @@
   <body>
     <form action="/save/{{ endpoint }}" method="post">
         <div class="form-group">
-          <label>Judul</label>
-          <input type="text" class="form-control"  name="title" value="{{ data.title }}">
+          <label>Title</label>
+          <input type="text" class="form-control"  name="title">
         </div>
         <div class="form-group">
-          <label>Sampul</label>
-          <input type="text" class="form-control"  name="cover" value="{{ data.cover }}">
+          <label>cover</label>
+          <input type="text" class="form-control"  name="cover">
         </div>
         <div class="form-group">
-          <label>Konten</label>
-          <input type="text" class="form-control"  name="content" value="{{ data.content }}" >
+          <label>content</label>
+          <input type="text" class="form-control"  name="content">
         </div>
-        {% if endpoint == 'artikel' %}
         <div class="form-group">
           <label>category</label>
           <select class="form-select" aria-label="Default select example" name="category">
@@ -35,7 +34,7 @@
             <option value="visimisi">Visi Misi</option>
           </select>
         </div>
-        {% endif %}
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     <!-- Optional JavaScript -->

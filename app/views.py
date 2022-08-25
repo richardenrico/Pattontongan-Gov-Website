@@ -1,4 +1,5 @@
 import datetime
+from unicodedata import category
 from app import app
 from app.models import Announcement, Article, News, Profile, User
 from flask import render_template, request, url_for, redirect
@@ -8,7 +9,8 @@ from flask_paginate import Pagination, get_page_parameter
 @app.route('/', methods=['GET', 'POST'])
 def home():
     news = News.objects().order_by('-posted_at')[:4]
-    return render_template('layout.html', news=news)
+    announcement = Article.objects(category='pengumuman').order_by('-posted_at').first()
+    return render_template('layout.html', news=news, announcement=announcement)
 
 @app.route("/berita")
 def news():
@@ -27,10 +29,10 @@ def input_news():
     news = News.objects()
     return render_template('input_forms.html', data=news, endpoint='berita')
 
-@app.route('/input/pengumuman', methods=['GET', 'POST'])
-def input_announcement():
-    announcement = Announcement.objects()
-    return render_template('input_forms.html', data=announcement, endpoint='pengumuman')
+@app.route('/input/artikel', methods=['GET', 'POST'])
+def input_article():
+    article = Article.objects()
+    return render_template('input_forms.html', data=article, endpoint='artikel')
 
 @app.route('/save/berita', methods=['GET', 'POST'])
 def save_news():
@@ -42,13 +44,14 @@ def save_news():
     news.save()
     return redirect(url_for('home'))
 
-@app.route('/save/pengumuman')
-def save_announcement():
-    announcement = Announcement(title=request.form['title'])
-    announcement.cover = request.form['cover']
-    announcement.content = request.form['content']
+@app.route('/save/artikel', methods=['GET', 'POST'])
+def save_article():
+    article = Article(title=request.form['title'])
+    article.cover = request.form['cover']
+    article.content = request.form['content']
+    article.category = request.form['category']
     
-    announcement.save()
+    article.save()
     return redirect(url_for('home'))
 
 if __name__ == '__main__':

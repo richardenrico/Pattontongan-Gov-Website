@@ -36,12 +36,9 @@
 
     <div class="announcement">
         <div class="announcement-content">
-            <h2 class="font-bold text-3xl mb-3">Semarak Lomba 17-an Desa Pattontongan</h2>
+            <h2 class="font-bold text-3xl mb-3">{{ announcement.title }}</h2>
 
-            <p>Semarak Lomba 17-an Desa Pattontongan akan diadakan dari 14 - 17 Agustus di Lapangan belakang bengkel Al.
-
-            Lomba 17-an diadakan berkat kerjasama antara warga, Karang Taruna, dan mahasiswa KKN Unhas Gelombang 108. Ayo datang meriahkan dan menangkan hadiah menarik.
-            </p>
+            <p>{{ announcement.content }}</p>
         </div>
         <div class="announcement-cover">
             <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" />
