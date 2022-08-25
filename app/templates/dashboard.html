@@ -11,32 +11,15 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <form action="/save/{{ endpoint }}" method="post">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" class="form-control"  name="title">
-        </div>
-        <div class="form-group">
-          <label>cover</label>
-          <input type="text" class="form-control"  name="cover">
-        </div>
-        <div class="form-group">
-          <label>content</label>
-          <input type="text" class="form-control"  name="content">
-        </div>
-        <div class="form-group">
-          <label>category</label>
-          <select class="form-select" aria-label="Default select example" name="category">
-            <option selected>Pilih kategori artikel</option>
-            <option value="pengumuman">Pengumuman</option>
-            <option value="wisata">Wisata</option>
-            <option value="peta">Peta</option>
-            <option value="visimisi">Visi Misi</option>
-          </select>
-        </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    <a role="button" class="btn btn-primary"  href="/input/berita">Input Berita</a>
+    <a role="button" class="btn btn-secondary" href="/input/pengumuman">Input Pengumuman</a>
+    <a role="button" class="btn btn-success" href="/input/wisata">Input Wisata</a>
+    <a role="button" class="btn btn-danger" href="/input/peta">Input Peta</a>
+    <a role="button" class="btn btn-warning" href="/input/visi-misi">Input Visi Misi</a>
+    <!-- <button type="button" class="btn btn-info">Info</button>
+    <button type="button" class="btn btn-light">Light</button>
+    <button type="button" class="btn btn-dark">Dark</button> -->
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

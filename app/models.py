@@ -7,26 +7,13 @@ class User(db.Document):
     password = db.StringField(required=True, min_length=5)
     role = db.StringField(default='author')
 
-class News(db.Document):
-    author = db.StringField(required=True, default='Admin')
+class Article(db.Document):
+    author = db.StringField(required=True)
     title = db.StringField(required=True)
     cover = db.StringField(required=True)
     slug = db.StringField(required=True)
     content = db.StringField(required=True)
-    description = db.StringField(required=True)
-    posted_at = db.ComplexDateTimeField(default=datetime.utcnow)
-    
-class Article(db.Document):
-    title = db.StringField(required=True)
-    content = db.StringField(required=True)
-    cover = db.StringField(required=True)
     category = db.StringField(required=True)
-    posted_at = db.ComplexDateTimeField(default=datetime.utcnow)
-    
-class Announcement(db.Document):
-    title = db.StringField(required=True)
-    content = db.StringField(required=True)
-    cover = db.StringField(required=True)
     posted_at = db.ComplexDateTimeField(default=datetime.utcnow)
     
 class Profile(db.Document):

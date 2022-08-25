@@ -24,18 +24,6 @@
           <label>Konten</label>
           <input type="text" class="form-control"  name="content" value="{{ data.content }}" >
         </div>
-        {% if endpoint == 'artikel' %}
-        <div class="form-group">
-          <label>category</label>
-          <select class="form-select" aria-label="Default select example" name="category">
-            <option selected>Pilih kategori artikel</option>
-            <option value="pengumuman">Pengumuman</option>
-            <option value="wisata">Wisata</option>
-            <option value="peta">Peta</option>
-            <option value="visimisi">Visi Misi</option>
-          </select>
-        </div>
-        {% endif %}
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     <!-- Optional JavaScript -->
