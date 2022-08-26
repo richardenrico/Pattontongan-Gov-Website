@@ -15,9 +15,9 @@ def home():
 def news():
     return render_template("news.html")
 
-@app.route('/berita/<slug>', methods=['GET', 'POST'])
-def detail(slug):
-    news = Article.objects(category='berita', slug=slug).first()
+@app.route('/<endpoint>/<slug>', methods=['GET', 'POST'])
+def detail(endpoint, slug):
+    news = Article.objects(category=endpoint, slug=slug).first()
     another_news = Article.objects(id__nin=[news.id], category='berita').order_by('-posted_at')[:3]
     
     return render_template('post.html', data=news, another_news=another_news)
@@ -26,6 +26,11 @@ def detail(slug):
 def dashboard():
     
     return render_template('dashboard.html')
+
+@app.route('/dashboard/<endpoint>', methods=['GET', 'POST'])
+def view(endpoint):
+    article = Article.objects(category=endpoint).order_by('-posted_at')
+    return render_template('dashboard.html', data=article, endpoint=endpoint)
 
 @app.route('/input/<endpoint>', methods=['GET', 'POST'])
 def input(endpoint):
@@ -37,17 +42,35 @@ def input(endpoint):
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])
 def save(endpoint):
     if 'username' in session:
-        author = User.objects(username = session.get('username')).first()
+        object_id = request.form['id']
         
-        article = Article(title=request.form['title'])
-        article.author = author.name
-        article.cover = request.form['cover']
-        article.content = request.form['content']
-        article.slug = '-'.join(request.form['title'].strip().lower().split(' '))
-        article.category = endpoint
-        
-        article.save()
-        return redirect(url_for('home'))
+        if object_id:
+            article = Article.objects(id=object_id).first()
+            article.update(
+                title=request.form['title'],
+                cover=request.form['cover'],
+                content=request.form['content'],
+                slug='-'.join(request.form['title'].strip().lower().split(' ')),
+            )
+        else:
+            author = User.objects(username = session.get('username')).first()
+            
+            article = Article(title=request.form['title'])
+            article.author = author.name
+            article.cover = request.form['cover']
+            article.content = request.form['content']
+            article.slug = '-'.join(request.form['title'].strip().lower().split(' '))
+            article.category = endpoint
+            
+            article.save()
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
+
+@app.route('/edit/<endpoint>/<article_id>', methods=['GET', 'POST'])
+def edit(article_id, endpoint):
+    if 'username' in session:
+        article = Article.objects(id=article_id).first()
+        return render_template('input_forms.html', data=article, endpoint=endpoint)
     return redirect(url_for('login'))
 
 @app.route('/login')

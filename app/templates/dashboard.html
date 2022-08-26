@@ -1,29 +1,65 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <a role="button" class="btn btn-primary"  href="/input/berita">Input Berita</a>
-    <a role="button" class="btn btn-secondary" href="/input/pengumuman">Input Pengumuman</a>
-    <a role="button" class="btn btn-success" href="/input/wisata">Input Wisata</a>
-    <a role="button" class="btn btn-danger" href="/input/peta">Input Peta</a>
-    <a role="button" class="btn btn-warning" href="/input/visi-misi">Input Visi Misi</a>
-    <!-- <button type="button" class="btn btn-info">Info</button>
-    <button type="button" class="btn btn-light">Light</button>
-    <button type="button" class="btn btn-dark">Dark</button> -->
+        <title>Hello, world!</title>
+    </head>
+    <body>
+        <a role="button" class="btn btn-primary"  href="/input/berita">Input Berita</a>
+        <a role="button" class="btn btn-secondary" href="/input/pengumuman">Input Pengumuman</a>
+        <a role="button" class="btn btn-success" href="/input/wisata">Input Wisata</a>
+        <a role="button" class="btn btn-danger" href="/input/peta">Input Peta</a>
+        <a role="button" class="btn btn-warning" href="/input/visi-misi">Input Visi Misi</a>
+        <!-- <button type="button" class="btn btn-info">Info</button>
+        <button type="button" class="btn btn-light">Light</button>
+        <button type="button" class="btn btn-dark">Dark</button> -->
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+        <div class="other-news">
+            <h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
+            {% for article in data %}
+            <div class="news-wrapper">
+                <a href="/{{ endpoint }}/{{ article.slug }}" class="link-dark">
+                    <div class="news-card shadow-md p-3  rounded-md">
+                        <!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
+                        <img src="{{ article.cover }}"/>
+                        <h5 class="card-title font-bold text-lg">{{ article.title }}</h5>
+                        <p class="card-content">{{ article.content }}...</p>
+                        <div class="card-author mt-3">
+                            <div class="author-img"></div>
+                            <div class="author-detail" style="flex: 1;">
+                                <strong>{{ article.author }}</strong>
+                                <div style="display: flex;  justify-content: space-between;">
+                                    <span>{{ article.posted_at.strftime('%Y-%m-%d') }}</span>
+                                    <strong>Lanjut baca </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <div class="d-flex button-group ms-auto">
+                    <form action="/edit/{{ endpoint }}/{{ article.id }}" method="post">
+                        <input type="hidden" name="id" class="form-control" value="{{ article.id }}">
+                        <button type="edit" class="btn button primary-button">Edit</button>
+                    </form>
+                    
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
 </html>

@@ -24,7 +24,10 @@
           <label>Konten</label>
           <input type="text" class="form-control"  name="content" value="{{ data.content }}" >
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="d-flex flex-row flex-wrap">
+          <input type="hidden" name="id" class="form-control" value="{{ data.id }}">
+          <button type="submit" class="btn button primary-button mr-4 mt-5">Save</button>
+      </div>
       </form>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
