@@ -50,7 +50,10 @@
                         <input type="hidden" name="id" class="form-control" value="{{ article.id }}">
                         <button type="edit" class="btn button primary-button">Edit</button>
                     </form>
-                    
+                    <form action="{{ url_for('delete') }}" method="post">
+                        <input type="hidden" name="id" class="form-control" value="{{ article.id }}">
+                        <button type="delete" class="btn button primary-button">Delete</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}

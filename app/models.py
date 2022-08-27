@@ -15,6 +15,7 @@ class Article(db.Document):
     content = db.StringField(required=True)
     category = db.StringField(required=True)
     posted_at = db.ComplexDateTimeField(default=datetime.utcnow)
+    updated_at = db.ComplexDateTimeField(default=datetime.utcnow)
     
 class Profile(db.Document):
     code = db.StringField(required=True)

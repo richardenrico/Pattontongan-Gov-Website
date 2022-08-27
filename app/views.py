@@ -4,6 +4,8 @@ from app.models import Article, Profile, User
 from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
 
+import datetime
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -47,10 +49,11 @@ def save(endpoint):
         if object_id:
             article = Article.objects(id=object_id).first()
             article.update(
-                title=request.form['title'],
-                cover=request.form['cover'],
-                content=request.form['content'],
-                slug='-'.join(request.form['title'].strip().lower().split(' ')),
+                title = request.form['title'],
+                cover = request.form['cover'],
+                content = request.form['content'],
+                slug = '-'.join(request.form['title'].strip().lower().split(' ')),
+                updated_at = datetime.datetime.utcnow()
             )
         else:
             author = User.objects(username = session.get('username')).first()
@@ -72,6 +75,11 @@ def edit(article_id, endpoint):
         article = Article.objects(id=article_id).first()
         return render_template('input_forms.html', data=article, endpoint=endpoint)
     return redirect(url_for('login'))
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    Article.objects(id=request.form['id']).delete()
+    return redirect(url_for('dashboard'))
 
 @app.route('/login')
 def login():
