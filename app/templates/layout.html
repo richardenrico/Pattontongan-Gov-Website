@@ -16,18 +16,29 @@
     {% endblock %} -->
     <!-- Header -->
     <header>
-        <div class="clock">
-            <span id="time"></span>
+        <div class="clock mx-10 px-5 flex flex-col space-y-4 pt-4 bg-gradient-to-b from-[#0C4433] ">
+            <div class="flex justify-between items-center">
+                <span id="time" class="text-sm"></span>
+                <a href="https://www.instagram.com/pemdes_pattontongan/" target="_blank">
+                    <i class="fa-brands fa-instagram text-xl"></i>
+                </a>
+            </div>
+            <div class="w-full h-1 rounded-full bg-white"></div>
         </div>
         <div class="header-main">
-            <div>
+            <div class="flex items-center space-x-2">
                 <img src="/static/img/logo.png" width="60px" />
+                <div class="w-1 h-14 bg-white rounded-full"></div>
+                <div class="flex flex-col text-white font-bold text-lg">
+                    <span>Desa</span>
+                    <span>Pattontongan</span>
+                </div>
             </div>
             <ul class="navigation">
                 <a>Beranda</a>
                 <a>Mengenal Pattontongan</a>
                 <a>Pemerintahan</a>
-                <a href="/berita" class="link-dark">Berita</a>
+                <a href="/berita">Berita</a>
             </ul>
         </div>
     </header>
@@ -133,7 +144,7 @@
                 clock.innerHTML = `${clock.innerHTML}, ${new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleTimeString('id',{
                     hour: "2-digit",
                     minute: "2-digit",
-                }).replace(".", ":")} WITA`
+                }).replace(".", ":")} WITA Maros, Sulawesi Selatan, Indonesia`
             }
 
             setInterval(function(){
