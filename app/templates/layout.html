@@ -1,53 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> 
-    <!-- {% block html %}{% endblock %}
-    <title>{% block title %}{% endblock %}</title> -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <!-- {% block content %}
-    {% endblock %} -->
-    <!-- Header -->
-    <header>
-        <div class="clock  px-5 flex flex-col space-y-4 pt-4 bg-gradient-to-b from-[#0C4433] ">
-            <div class="flex justify-between items-center">
-                <span id="time" class="text-sm"></span>
-                <a href="https://www.instagram.com/pemdes_pattontongan/" target="_blank">
-                    <i class="fa-brands fa-instagram text-xl"></i>
-                </a>
-            </div>
-            <div class="w-full h-1 rounded-full bg-white"></div>
-        </div>
-        <div class="header-main">
-            <div class="flex items-center space-x-2">
-                <img src="/static/img/logo.png" width="60px" />
-                <div class="w-1 h-14 bg-white rounded-full"></div>
-                <div class="flex flex-col text-white font-bold text-lg">
-                    <span>Desa</span>
-                    <span>Pattontongan</span>
-                </div>
-            </div>
-            <ul class="navigation">
-                <a href="/">Beranda</a>
-                <a>Mengenal Pattontongan</a>
-                <a>Pemerintahan</a>
-                <a href="/berita">Berita</a>
-            </ul>
-        </div>
-    </header>
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Beranda</title>
+{% endblock %}
+
+
+{% block content %}
     <div class="hero">
-       <div class="hero-title">
+        <div class="hero-title">
             <h1 id="welcome " class="font-bold text-3xl">Selamat Datang di</h1>
             <h1 class="text-5xl font-bold" >Desa Pattontongan</h1>
             <div id="liner" class="mt-5"></div>
-       </div>
+        </div>
     </div>
 
     <div class="announcement">
@@ -85,72 +49,4 @@
             {% endfor %}
         </div>
     </div>
-
-    <div class="p-10 bg-[#0C4433] w-screen max-w-full flex space-x-20">
-        <div>
-            <div class="flex items-center space-x-2">
-                <img src="{{url_for('static', filename='img/logo.png')}}" />
-                <img src="{{url_for('static', filename='img/separator.png')}}" />
-                <div>
-                    <h3 class="text-white font-bold text-3xl">Desa <br/> Pattontongan</h3>
-                </div>
-            </div>
-            <div class="mt-10 space-y-5">
-                <div class="flex space-x-5 text-white items-center">
-                    <i class="fa-solid fa-location-dot text-white text-lg"></i>
-                    <strong>VHW7+5QX, Desa Pattontongan, Kec. Mandai, <br/> Kabupaten Maros, Sulawesi Selatan 90552</strong>
-                </div>
-    
-                <div class="flex space-x-5 text-white items-center">
-                    <i class="fa-solid fa-phone text-white text-lg"></i>
-                    <strong>+621234567890</strong>
-                </div>
-    
-                <div class="flex space-x-5 text-white items-center">
-                    <i class="fa-solid fa-envelope-open text-white text-lg"></i>
-                    <strong>johndoe@gmail.com</strong>
-                </div>
-            </div>
-        </div>
-        <div>
-            <h1 class="text-3xl font-bold text-white">Halaman</h1>
-            <h2 class="font-bold text-xl text-white mt-3">Beranda</h2>
-            <h2 class="font-bold text-xl text-white mt-3">Mengenal Pattontongan</h2>
-            <p class="text-white">Wisata Mappadendang</p>
-            <h2 class="font-bold text-xl text-white mt-3">Pemerintahan</h2>
-            <p class="text-white">Visi dan Misi</p>
-            <p class="text-white">Aparatur</p>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function (){
-            const clock = document.getElementById('time')
-
-            const witHourOffset = 8
-
-            const _date = new Date();
-            const witaHourOffset = witHourOffset*60*60000;
-            const userOffset = _date.getTimezoneOffset()*60000;
-
-            function updateClock(clock){
-                clock.innerHTML = new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleDateString('id', {
-                    weekday: "long",
-                    month: "long",
-                    year: "numeric",
-                    day: "2-digit",
-                });
-
-                clock.innerHTML = `${clock.innerHTML}, ${new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleTimeString('id',{
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }).replace(".", ":")} WITA Maros, Sulawesi Selatan, Indonesia`
-            }
-
-            setInterval(function(){
-                updateClock(clock)
-            }, 1000)
-        }())
-    </script>
-</body>
-</html>
+{% endblock %}
