@@ -15,7 +15,21 @@ def home():
 
 @app.route("/berita")
 def news():
-    return render_template("news.html")
+    carousels = Article.objects(category="berita").order_by('-posted_at')[:4]
+
+    news = Article.objects(category="berita").order_by('-posted_at')
+
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 6
+
+    offset = (page-1) * per_page
+
+    if len(news) < offset:
+        return redirect('/error')
+
+    paginated_news = news[offset:offset + per_page]
+    pagination = Pagination(page=page, total=len(news), per_page=per_page)
+    return render_template("news.html", carousels=carousels, news=paginated_news, pagination=pagination)
 
 @app.route('/<endpoint>/<slug>', methods=['GET', 'POST'])
 def detail(endpoint, slug):
