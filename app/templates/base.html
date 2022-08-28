@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/layout.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> 
+    
+    {% block title %}
+    {% endblock %}
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      header{
+          display: flex;
+          flex-direction: column ;
+          position: absolute;
+          right: 0;
+          left: 0;
+          z-index: 99;
+          background: transparent;
+          color: white;
+          font-weight: 500;
+      }
+
+      .header-main{
+          width: 100vw;
+          max-width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0px 40px;
+          height: 80px;
+          
+      }
+      ul{
+          margin: 0;
+      }
+      ul.navigation > a{
+          margin: 0 20px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5f5f5]">
+    <header>
+      <div class="clock px-5 flex flex-col space-y-4 pt-4 bg-gradient-to-b from-[#0C4433] ">
+          <div class="flex justify-between items-center">
+              <span id="time" class="text-sm"></span>
+              <a href="https://www.instagram.com/pemdes_pattontongan/" target="_blank">
+                  <i class="fa-brands fa-instagram text-xl"></i>
+              </a>
+          </div>
+          <div class="w-full h-1 rounded-full bg-white"></div>
+      </div>
+      <div class="header-main">
+          <div class="flex items-center space-x-2">
+              <img src="/static/img/logo.png" width="60px" />
+              <div class="w-1 h-14 bg-white rounded-full"></div>
+              <div class="flex flex-col text-white font-bold text-lg">
+                  <span>Desa</span>
+                  <span>Pattontongan</span>
+              </div>
+          </div>
+          <ul class="navigation">
+              <a href="/">Beranda</a>
+              <a>Mengenal Pattontongan</a>
+              <a>Pemerintahan</a>
+              <a href="/berita">Berita</a>
+          </ul>
+      </div>
+  </header>
+  {% block content %}
+  {% endblock %}
+<!-- Footer -->
+    <div class="p-10 bg-[#0C4433] w-screen max-w-full flex space-x-20">
+        <div>
+            <div class="flex items-center space-x-2">
+                <img src="{{url_for('static', filename='img/logo.png')}}" />
+                <img src="{{url_for('static', filename='img/separator.png')}}" />
+                <div>
+                    <h3 class="text-white font-bold text-3xl">Desa <br/> Pattontongan</h3>
+                </div>
+            </div>
+            <div class="mt-10 space-y-5">
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-location-dot text-white text-lg"></i>
+                    <strong>VHW7+5QX, Desa Pattontongan, Kec. Mandai, <br/> Kabupaten Maros, Sulawesi Selatan 90552</strong>
+                </div>
+    
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-phone text-white text-lg"></i>
+                    <strong>+621234567890</strong>
+                </div>
+    
+                <div class="flex space-x-5 text-white items-center">
+                    <i class="fa-solid fa-envelope-open text-white text-lg"></i>
+                    <strong>johndoe@gmail.com</strong>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1 class="text-3xl font-bold text-white">Halaman</h1>
+            <h2 class="font-bold text-xl text-white mt-3">Beranda</h2>
+            <h2 class="font-bold text-xl text-white mt-3">Mengenal Pattontongan</h2>
+            <p class="text-white">Wisata Mappadendang</p>
+            <h2 class="font-bold text-xl text-white mt-3">Pemerintahan</h2>
+            <p class="text-white">Visi dan Misi</p>
+            <p class="text-white">Aparatur</p>
+        </div>
+    </div>
+
+    <script>
+      (function (){
+          const clock = document.getElementById('time')
+
+          const witHourOffset = 8
+
+          const _date = new Date();
+          const witaHourOffset = witHourOffset*60*60000;
+          const userOffset = _date.getTimezoneOffset()*60000;
+
+          function updateClock(clock){
+              clock.innerHTML = new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleDateString('id', {
+                  weekday: "long",
+                  month: "long",
+                  year: "numeric",
+                  day: "2-digit",
+              });
+
+              clock.innerHTML = `${clock.innerHTML}, ${new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleTimeString('id',{
+                  hour: "2-digit",
+                  minute: "2-digit",
+              }).replace(".", ":")} WITA Maros, Sulawesi Selatan, Indonesia`
+          }
+
+          setInterval(function(){
+              updateClock(clock)
+          }, 1000)
+      }())
+  </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
