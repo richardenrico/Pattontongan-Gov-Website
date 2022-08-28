@@ -15,17 +15,33 @@
     <!-- {% block content %}
     {% endblock %} -->
     <!-- Header -->
-    <div class="header">
-        <div>
-            <img src="/static/img/logo.png" width="60px" />
+    <header>
+        <div class="clock  px-5 flex flex-col space-y-4 pt-4 bg-gradient-to-b from-[#0C4433] ">
+            <div class="flex justify-between items-center">
+                <span id="time" class="text-sm"></span>
+                <a href="https://www.instagram.com/pemdes_pattontongan/" target="_blank">
+                    <i class="fa-brands fa-instagram text-xl"></i>
+                </a>
+            </div>
+            <div class="w-full h-1 rounded-full bg-white"></div>
         </div>
-        <ul class="navigation">
-            <a>Beranda</a>
-            <a>Mengenal Pattontongan</a>
-            <a>Pemerintahan</a>
-            <a href="/berita" class="link-dark">Berita</a>
-        </ul>
-    </div>
+        <div class="header-main">
+            <div class="flex items-center space-x-2">
+                <img src="/static/img/logo.png" width="60px" />
+                <div class="w-1 h-14 bg-white rounded-full"></div>
+                <div class="flex flex-col text-white font-bold text-lg">
+                    <span>Desa</span>
+                    <span>Pattontongan</span>
+                </div>
+            </div>
+            <ul class="navigation">
+                <a href="/">Beranda</a>
+                <a>Mengenal Pattontongan</a>
+                <a>Pemerintahan</a>
+                <a href="/berita">Berita</a>
+            </ul>
+        </div>
+    </header>
     <div class="hero">
        <div class="hero-title">
             <h1 id="welcome " class="font-bold text-3xl">Selamat Datang di</h1>
@@ -106,5 +122,35 @@
             <p class="text-white">Aparatur</p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function (){
+            const clock = document.getElementById('time')
+
+            const witHourOffset = 8
+
+            const _date = new Date();
+            const witaHourOffset = witHourOffset*60*60000;
+            const userOffset = _date.getTimezoneOffset()*60000;
+
+            function updateClock(clock){
+                clock.innerHTML = new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleDateString('id', {
+                    weekday: "long",
+                    month: "long",
+                    year: "numeric",
+                    day: "2-digit",
+                });
+
+                clock.innerHTML = `${clock.innerHTML}, ${new Date(_date.getTime() + witaHourOffset + userOffset).toLocaleTimeString('id',{
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }).replace(".", ":")} WITA Maros, Sulawesi Selatan, Indonesia`
+            }
+
+            setInterval(function(){
+                updateClock(clock)
+            }, 1000)
+        }())
+    </script>
 </body>
 </html>
