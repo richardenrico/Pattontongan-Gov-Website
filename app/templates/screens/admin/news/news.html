@@ -1,0 +1,65 @@
+{% extends 'screens/admin/base.html'%}
+
+{% block content %}
+<div class="xl:ml-64 h-full max-h-screen mt-10 relative z-20">
+    <div >
+        <h1 class="ml-10 mr-6 font-bold text-lg text-white">Daftar Berita</h1>
+        <div class="mt-5 w-full px-10 flex flex-wrap rounded-xl">
+            <div class="bg-white w-full rounded-xl p-5">
+                <h1 class="font-semibold text-size-xl">Daftar Berita</h1>
+                <div class="overflow-x-auto relative mt-5">
+                    <table class="w-full text-sm text-left text-gray-500  ">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 rounded-t-xl ">
+                            <tr>
+                                <th scope="col" class="py-3 px-6">
+                                    Judul
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    Penulis
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    Dibuat Pada
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for new in news %}
+                            <tr class="bg-white border-b ">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                                    {{new.title}}
+                                </th>
+                                <td class="py-4 px-6">
+                                    {{new.author}}
+                                </td>
+                                <td class="py-4 px-6">
+                                    {{new.posted_at}}
+                                </td>
+                                <td class="py-4 px-6 flex space-x-2 items-center">
+                                    <a href="/admin/news/edit/{{ new.id }}">
+                                        <i class="fa-solid fa-edit"></i>
+                                    </a>
+                                    <form action="/admin/news/delete/{{ new.id }}" method="post">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                        <button type="submit">
+                                            <i class="fa-solid fa-trash cursor-pointer hover:text-red-700"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="/admin/news/new" class="w-14 h-14  rounded-full bg-white shadow-lg fixed bottom-8 right-8 flex items-center justify-center cursor-pointer">
+        <i class="fa-solid fa-plus text-2xl"></i>
+    </a>
+    </div>
+
+{% endblock %}

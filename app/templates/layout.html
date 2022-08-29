@@ -18,39 +18,42 @@
         <div class="announcement-content">
             <h2 class="font-bold text-3xl mb-3">{{ announcement.title }}</h2>
 
-            <p>{{ announcement.content }}</p>
+            <p>{{ announcement.content|safe }}</p>
         </div>
         <div class="announcement-cover">
-            <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" class="rounded-md"/>
+            <!-- <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" class="rounded-md"/> -->
+            <img src="{{ announcement.cover }}" class="rounded-md aspect-[16/9] object-cover"/>
         </div>
     </div>
-    <div class="other-news">
-        <h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
-        <div class="news-wrapper">
-            {% for berita in news %}
-            <a href="/berita/{{ berita.slug }}" class="">
-                <div class="news-card shadow-md p-3  rounded-md bg-white">
-                    <!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
-                    <img src="{{ berita.cover }}"/>
-                    <h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
-                    <p class="card-content">{{ berita.content }}...</p>
-                    <div class="card-author mt-3">
-                        <div class="author-img">
-							<img src="{{ url_for('static', filename='img/user.png') }}" alt="">
+	<div class="bg-white my-10">
+		<div class="other-news">
+			<h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
+			<div class="news-wrapper">
+				{% for berita in news %}
+				<a href="/berita/{{ berita.slug }}" class="">
+					<div class="news-card shadow-md p-3  rounded-md bg-white">
+						<!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
+						<img src="{{ berita.cover }}" class="aspect-[16/9]"/>
+						<h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
+						<p class="card-content">{{ berita.content }}...</p>
+						<div class="card-author mt-3">
+							<div class="author-img">
+								<img src="{{ url_for('static', filename='img/user.png') }}" alt="">
+							</div>
+							<div class="author-detail" style="flex: 1;">
+								<strong>{{ berita.author }}</strong>
+								<div style="display: flex;  justify-content: space-between;">
+									<span>{{ berita.posted_at.strftime('%Y-%m-%d') }}</span>
+									<strong>Lanjut baca </strong>
+								</div>
+							</div>
 						</div>
-                        <div class="author-detail" style="flex: 1;">
-                            <strong>{{ berita.author }}</strong>
-                            <div style="display: flex;  justify-content: space-between;">
-                                <span>{{ berita.posted_at.strftime('%Y-%m-%d') }}</span>
-                                <strong>Lanjut baca </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 
     <div class="py-5 bg-white hidden lg:block">
         <h3 class="font-bold text-4xl mb-3 text-center">Peta Desa</h3>
