@@ -1,6 +1,6 @@
 from app import app
 from app import bcrypt
-from app.forms import AnnouncementForm, NewsForm, UserForm
+from app.forms import AnnouncementForm, NewsForm, UserForm, TourismForm
 from app.models import Article, Profile, User
 from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
@@ -302,6 +302,96 @@ def admin_delete_announcement(id):
         announcement.delete()
 
         return redirect("/admin/announcements")
+
+
+
+# Tourism
+@app.route('/admin/tourisms')
+def admin_tourisms():
+    tourisms = Article.objects(category="wisata")
+    return render_template('screens/admin/tourisms/tourism.html', tourisms=tourisms)
+
+@app.route('/admin/tourisms/new', methods=["GET", "POST"])
+def admin_new_tourisms():
+    form = TourismForm()
+
+    if request.method == 'POST':
+        title = form.title.data
+
+        slug = title.strip().lower().replace(' ','-')
+
+        tourism_exist = Article.objects(category='wisata', slug=slug).first()
+        if tourism_exist:
+            return render_template('screens/admin/tourisms/add_tourism.html', error="Wisata sudah ada", form=form)
+
+        category = form.category.data
+        cover = form.cover.data
+        if form.cover.data == "":
+            cover = "/static/img/cover.jpg"
+
+        content = form.content.data
+        author = "yukiao"
+        tourism = Article(
+            author=author,
+            title=title,
+            cover=cover,
+            slug=slug,
+            content=content,
+            category=category,
+        )
+
+        tourism.save()
+
+
+
+        return redirect("/admin/tourisms")
+    return render_template('screens/admin/tourisms/add_tourism.html', form=form)
+
+@app.route("/admin/tourisms/edit/<id>", methods=["GET", "POST"])
+def admin_tourism_edit(id):
+    form = NewsForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            tourism = Article.objects(id=id, category="wisata").first()
+
+            slug = form.title.data.strip().lower().replace(" ", "-")
+
+            if tourism.slug != slug :
+                tourism_exist = Article.objects(slug=slug, category="wisata").first()
+                if tourism_exist:  
+                    return render_template('screens/admin/tourisms/add_tourism.html', error="Wisata sudah ada", form=form, id=tourism.id)
+
+            field_data = {
+                "title": form.title.data,
+                "slug": slug,
+                "content": form.content.data,
+                "cover": form.cover.data if form.cover.data != "" else "/static/img/cover.jpg"
+            }
+
+            tourism.update(**field_data)
+            tourism.reload()
+
+            return redirect("/admin/tourisms")
+    
+    tourism = Article.objects(id=id, category="wisata").first()
+
+    form.title.default = tourism.title
+    form.category.default = tourism.category
+    form.content.default = tourism.content
+    form.cover.default = tourism.cover
+
+    form.process()
+
+    return render_template('screens/admin/tourisms/edit_tourism.html', form=form, id=tourism.id)
+
+@app.route('/admin/tourisms/delete/<id>', methods=["POST"])
+def admin_delete_tourism(id):
+    if request.method == 'POST':
+        tourism = Article.objects(id=id, category="wisata").first()
+        tourism.delete()
+
+        return redirect("/admin/tourisms")
 
 
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])

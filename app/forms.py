@@ -21,3 +21,9 @@ class AnnouncementForm(FlaskForm):
     cover = StringField('Sampul')
     content = CKEditorField('Content', validators=[DataRequired("Konten berita diperlukan")])
     category = HiddenField("Kategory", default="pengumuman")
+
+class TourismForm(FlaskForm):
+    title = StringField('Judul', validators=[DataRequired("Judul diperlukan")])
+    cover = StringField('Sampul')
+    content = CKEditorField('Content', validators=[DataRequired("Konten berita diperlukan")])
+    category = HiddenField("Kategory", default="wisata")
