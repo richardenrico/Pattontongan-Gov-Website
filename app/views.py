@@ -1,6 +1,6 @@
 from app import app
 from app import bcrypt
-from app.forms import NewsForm, UserForm
+from app.forms import AnnouncementForm, NewsForm, UserForm
 from app.models import Article, Profile, User
 from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
@@ -123,7 +123,7 @@ def admin_delete_user(id):
 
         return redirect("/admin/users")
 
-
+# News
 @app.route('/admin/news')
 def admin_news():
     news = Article.objects(category="berita")
@@ -140,7 +140,7 @@ def admin_new_news():
 
         news_exist = Article.objects(category='berita', slug=slug).first()
         if news_exist:
-            return render_template('screens/admin/add_news.html', error="Berita sudah ada", form=form)
+            return render_template('screens/admin/news/add_news.html', error="Berita sudah ada", form=form)
 
         category = form.category.data
         cover = form.cover.data
@@ -211,6 +211,98 @@ def admin_delete_news(id):
         news.delete()
 
         return redirect("/admin/news")
+
+
+
+# Announcements
+@app.route('/admin/announcements')
+def admin_announcement():
+    announcements = Article.objects(category="pengumuman")
+    return render_template('screens/admin/announcements/announcement.html', announcements=announcements)
+
+@app.route('/admin/announcements/new', methods=["GET", "POST"])
+def admin_new_announcement():
+    form = AnnouncementForm()
+
+    if request.method == 'POST':
+        title = form.title.data
+
+        slug = title.strip().lower().replace(' ','-')
+
+        news_exist = Article.objects(category='pengumuman', slug=slug).first()
+        if news_exist:
+            return render_template('screens/admin/announcements/add_announcement.html', error="Pengumuman sudah ada", form=form)
+
+        category = form.category.data
+        cover = form.cover.data
+        if form.cover.data == "":
+            cover = "/static/img/cover.jpg"
+
+        content = form.content.data
+        author = "yukiao"
+        announcement = Article(
+            author=author,
+            title=title,
+            cover=cover,
+            slug=slug,
+            content=content,
+            category=category,
+        )
+
+        announcement.save()
+
+        # user = User(username=username, name=name, password=hashed_password)
+        # user.save()
+
+        return redirect("/admin/announcements")
+    return render_template('screens/admin/announcements/add_announcement.html', form=form)
+
+@app.route("/admin/announcements/edit/<id>", methods=["GET", "POST"])
+def admin_announcement_edit(id):
+    form = AnnouncementForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            announcement = Article.objects(id=id, category="pengumuman").first()
+
+            slug = form.title.data.strip().lower().replace(" ", "-")
+
+            if announcement.slug != slug :
+                announcement_exist = Article.objects(slug=slug, category="pengumuman").first()
+                if announcement_exist:  
+                    return render_template('screens/admin/announcements/add_announcement.html', error="Pengumuman sudah ada", form=form, id=announcement.id)
+
+            field_data = {
+                "title": form.title.data,
+                "slug": slug,
+                "content": form.content.data,
+                "cover": form.cover.data if form.cover.data != "" else "/static/img/cover.jpg"
+            }
+
+            announcement.update(**field_data)
+            announcement.reload()
+
+            return redirect("/admin/announcements")
+    
+    announcement = Article.objects(id=id, category="pengumuman").first()
+
+    form.title.default = announcement.title
+    form.category.default = announcement.category
+    form.content.default = announcement.content
+    form.cover.default = announcement.cover
+
+    form.process()
+
+    return render_template('screens/admin/announcements/edit_announcement.html', form=form, id=announcement.id)
+
+@app.route('/admin/announcements/delete/<id>', methods=["POST"])
+def admin_delete_announcement(id):
+    if request.method == 'POST':
+        announcement = Article.objects(id=id, category="pengumuman").first()
+        announcement.delete()
+
+        return redirect("/admin/announcements")
+
 
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])
 def save(endpoint):

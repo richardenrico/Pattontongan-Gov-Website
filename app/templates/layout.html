@@ -18,10 +18,11 @@
         <div class="announcement-content">
             <h2 class="font-bold text-3xl mb-3">{{ announcement.title }}</h2>
 
-            <p>{{ announcement.content }}</p>
+            <p>{{ announcement.content|safe }}</p>
         </div>
         <div class="announcement-cover">
-            <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" class="rounded-md"/>
+            <!-- <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" class="rounded-md"/> -->
+            <img src="{{ announcement.cover }}" class="rounded-md aspect-[16/9] object-cover"/>
         </div>
     </div>
     <div class="other-news">
