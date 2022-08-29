@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> 
+</head>
+
+<body class="bg-gray-50">
+  <div class="fixed top-0 w-screen max-w-full bg-green-500 h-64 -z-10"></div>
+  <aside class="fixed top-0 bottom-0 overflow-y-auto my-4 bg-white w-full max-w-[256px] flex ml-4 rounded-md px-3 py-2 flex flex-col ">
+    <div class="flex items-center">
+      <img class="w-10" src="{{url_for('static', filename='img/logo.png')}}"  />
+      <h1 class="text-lg font-semibold ml-3">Dashboard Pattontongan</h1>
+    </div>
+    <hr class="my-5 h-px bg-gray-50 w-full" />
+    <div class="flex flex-col">
+      <a href="/admin/dashboard" class="flex space-x-3 items-center p-3 bg-green-50 rounded-md">
+        <i class="fa-solid fa-house text-green-700"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="/admin/users" class="flex space-x-3 items-center p-3 rounded-md cursor-pointer">
+        <i class="fa-solid fa-user text-green-700"></i>
+        <span>Pengguna</span>
+      </a>
+
+      <a href="/admin/news" class="flex space-x-3 items-center p-3 rounded-md cursor-pointer">
+        <i class="fa-solid fa-newspaper text-green-700"></i>
+        <span>Berita</span>
+      </a>
+
+      <a href="/admin/destinations" class="flex space-x-3 items-center p-3 rounded-md cursor-pointer">
+        <i class="fa-solid fa-map text-green-700"></i>
+        <span>Wisata</span>
+      </a>
+      
+    </div>
+  </aside>
+  {% block content %}
+  {% endblock %}
+</body>
+
+</html>
