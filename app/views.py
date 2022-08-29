@@ -9,10 +9,10 @@ import datetime
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    
+    maps = Article.objects(category='peta').order_by('title')
     news = Article.objects(category='berita').order_by('-posted_at')[:4]
     announcement = Article.objects(category='pengumuman').order_by('-posted_at').first()
-    return render_template('layout.html', news=news, announcement=announcement)
+    return render_template('layout.html', news=news, announcement=announcement, maps=maps)
 
 @app.route("/berita")
 def news():
