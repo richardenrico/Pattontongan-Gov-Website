@@ -22,7 +22,7 @@
                 <span>{{ data.posted_at.strftime('%Y-%m-%d') }}</span>
             </div>
         </div>  
-        <p class="mt-8">{{ data.content }}</p>
+        <p class="mt-8">{{ data.content|safe }}</p>
         </div>
     </div>
     

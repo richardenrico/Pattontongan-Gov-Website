@@ -31,7 +31,7 @@
             <a href="/berita/{{ berita.slug }}" class="">
                 <div class="news-card shadow-md p-3  rounded-md bg-white">
                     <!-- <img src="{{url_for('static', filename='img/gor_pattontongan.jpg')}}"/> -->
-                    <img src="{{ berita.cover }}"/>
+                    <img src="{{ berita.cover }}" class="aspect-[16/9]"/>
                     <h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
                     <p class="card-content">{{ berita.content }}...</p>
                     <div class="card-author mt-3">

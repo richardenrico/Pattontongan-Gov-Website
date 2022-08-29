@@ -12,6 +12,7 @@ app.config['MONGODB_SETTINGS'] = {
     'host': '127.0.0.1',
     'port': 27017,
 }
+app.config['CKEDITOR_PKG_TYPE'] = 'basic'
 
 csrf = CSRFProtect(app)
 ckeditor = CKEditor(app)

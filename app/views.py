@@ -1,8 +1,6 @@
-from dataclasses import field
-from unicodedata import category
 from app import app
 from app import bcrypt
-from app.forms import UserForm
+from app.forms import NewsForm, UserForm
 from app.models import Article, Profile, User
 from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
@@ -124,6 +122,95 @@ def admin_delete_user(id):
         user.delete()
 
         return redirect("/admin/users")
+
+
+@app.route('/admin/news')
+def admin_news():
+    news = Article.objects(category="berita")
+    return render_template('screens/admin/news/news.html', news=news)
+
+@app.route('/admin/news/new', methods=["GET", "POST"])
+def admin_new_news():
+    form = NewsForm()
+
+    if request.method == 'POST':
+        title = form.title.data
+
+        slug = title.strip().lower().replace(' ','-')
+
+        news_exist = Article.objects(category='berita', slug=slug).first()
+        if news_exist:
+            return render_template('screens/admin/add_news.html', error="Berita sudah ada", form=form)
+
+        category = form.category.data
+        cover = form.cover.data
+        if form.cover.data == "":
+            cover = "/static/img/cover.jpg"
+
+        content = form.content.data
+        author = "yukiao"
+        news = Article(
+            author=author,
+            title=title,
+            cover=cover,
+            slug=slug,
+            content=content,
+            category=category,
+        )
+
+        news.save()
+
+        # user = User(username=username, name=name, password=hashed_password)
+        # user.save()
+
+        return redirect("/admin/news")
+    return render_template('screens/admin/news/add_news.html', form=form)
+
+@app.route("/admin/news/edit/<id>", methods=["GET", "POST"])
+def admin_news_edit(id):
+    form = NewsForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            news = Article.objects(id=id, category="berita").first()
+
+            slug = form.title.data.strip().lower().replace(" ", "-")
+
+            if news.slug != slug :
+                news_exist = Article.objects(slug=slug, category="berita").first()
+                if news_exist:  
+                    return render_template('screens/admin/news/add_news.html', error="Berita sudah ada", form=form, id=news.id)
+
+            field_data = {
+                "title": form.title.data,
+                "slug": slug,
+                "content": form.content.data,
+                "cover": form.cover.data if form.cover.data != "" else "/static/img/cover.jpg"
+            }
+
+            news.update(**field_data)
+            news.reload()
+
+            return redirect("/admin/news")
+    
+    news = Article.objects(id=id, category="berita").first()
+
+    form.title.default = news.title
+    form.category.default = news.category
+    form.content.default = news.content
+    form.cover.default = news.cover
+
+    form.process()
+
+    return render_template('screens/admin/news/edit_news.html', form=form, id=news.id)
+
+@app.route('/admin/news/delete/<id>', methods=["POST"])
+def admin_delete_news(id):
+    if request.method == 'POST':
+        news = Article.objects(id=id, category="berita").first()
+        news.delete()
+
+        return redirect("/admin/news")
 
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])
 def save(endpoint):
