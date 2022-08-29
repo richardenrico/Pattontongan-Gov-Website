@@ -1,5 +1,8 @@
+from dataclasses import field
 from unicodedata import category
 from app import app
+from app import bcrypt
+from app.forms import UserForm
 from app.models import Article, Profile, User
 from flask import render_template, request, url_for, redirect, session
 from flask_paginate import Pagination, get_page_parameter
@@ -69,6 +72,40 @@ def admin_dashboard():
         destination_count=destination_count,
         user_count=user_count
         )
+
+@app.route('/admin/users')
+def admin_users():
+    users = User.objects()
+    return render_template('screens/admin/user.html', users=users)
+
+@app.route('/admin/users/new', methods=["GET", "POST"])
+def admin_new_user():
+    form = UserForm()
+
+    if request.method == 'POST':
+        username = form.username.data
+
+        user_exist = User.objects(username=username).first()
+        if user_exist:
+            return render_template('screens/admin/add_user.html', error="Akun sudah ada", form=form)
+
+        name = form.name.data
+        password = form.password.data
+
+        hashed_password = bcrypt.generate_password_hash(password, 10).decode('utf-8')
+        user = User(username=username, name=name, password=hashed_password)
+        user.save()
+
+        return redirect("/admin/users")
+    return render_template('screens/admin/add_user.html', form=form)
+
+@app.route('/admin/users/delete/<id>', methods=["POST"])
+def admin_delete_user(id):
+    if request.method == 'POST':
+        user = User.objects(id=id).first()
+        user.delete()
+
+        return redirect("/admin/users")
 
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])
 def save(endpoint):
