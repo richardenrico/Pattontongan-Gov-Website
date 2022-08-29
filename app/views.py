@@ -40,7 +40,7 @@ def detail(endpoint, slug):
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    
+
     return render_template('dashboard.html')
 
 @app.route('/dashboard/<endpoint>', methods=['GET', 'POST'])
@@ -54,6 +54,21 @@ def input(endpoint):
         article = Article.objects()
         return render_template('input_forms.html', data=article, endpoint=endpoint)
     return redirect(url_for('login'))
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    news_count = Article.objects(category='berita').count()
+    announcement_count = Article.objects(category='pengumuman').count()
+    destination_count = Article.objects(category='wisata').count()
+    user_count = User.objects().count()
+
+    return render_template(
+        'screens/admin/dashboard.html',
+        news_count=news_count,
+        announcement_count=announcement_count,
+        destination_count=destination_count,
+        user_count=user_count
+        )
 
 @app.route('/save/<endpoint>', methods=['GET', 'POST'])
 def save(endpoint):
