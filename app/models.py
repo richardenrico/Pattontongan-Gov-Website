@@ -24,3 +24,8 @@ class Profile(db.Document):
     address = db.StringField(required=True)
     email = db.StringField(required=True)
     phone_number = db.StringField(required=True)
+    
+class Officials(db.Document):
+    name = db.StringField(required=True)
+    image = db.StringField(required=True)
+    position = db.StringField(required=True)

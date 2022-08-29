@@ -21,7 +21,7 @@
             <p>{{ announcement.content }}</p>
         </div>
         <div class="announcement-cover">
-            <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" />
+            <img src="{{ url_for('static', filename='img/Spanduk-1.png') }}" class="rounded-md"/>
         </div>
     </div>
     <div class="other-news">
@@ -35,7 +35,9 @@
                     <h5 class="card-title font-bold text-lg">{{ berita.title }}</h5>
                     <p class="card-content">{{ berita.content }}...</p>
                     <div class="card-author mt-3">
-                        <div class="author-img"></div>
+                        <div class="author-img">
+							<img src="{{ url_for('static', filename='img/user.png') }}" alt="">
+						</div>
                         <div class="author-detail" style="flex: 1;">
                             <strong>{{ berita.author }}</strong>
                             <div style="display: flex;  justify-content: space-between;">
@@ -53,7 +55,7 @@
     <div class="py-5 bg-white hidden lg:block">
         <h3 class="font-bold text-4xl mb-3 text-center">Peta Desa</h3>
         <div class="flex">
-        <svg class="flex-1" width="272pt" height="280pt" viewBox="265 160 120 240" enable-background="new 0 0 839.25354 440.24882"
+        <svg class="flex-1" width="472pt" height="480pt" viewBox="265 160 120 240" enable-background="new 0 0 839.25354 440.24882"
 	version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
 	<g id="Layers">
 		<g id="Batas_Desa">
@@ -171,8 +173,9 @@
 	</g>
 </svg>
 <div class="flex-1 flex items-center justify-center flex-col">
+	<img src="{{ maps[2].cover }}" class="rounded ratio ratio-21x9" alt="nope" style="object-fit: cover;">
     <h1 class="text-2xl font-bold" id="map-title">Desa Pattontongan</h1>
-    <p class="mt-3" id="map-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero, ex est sequi sed facere ducimus vel neque itaque nobis eius.</p>
+    <p class="mt-3" id="map-description">{{ maps[0].content }}</p>
 </div>
 </div>
     </div>
@@ -181,41 +184,49 @@
         document.querySelector("#mangento").addEventListener('mouseover', function(e){
             e.target.attributes.fill.nodeValue = "#AB2d52"
             document.querySelector("#map-title").innerText = "Dusun Mangento"
+            document.querySelector("#map-description").innerText = "{{ maps[2].content }}"
         })
 
         document.querySelector("#mangento").addEventListener('mouseout', function(e){
             e.target.attributes.fill.nodeValue = "#EFF5BF"
             document.querySelector("#map-title").innerText = "Desa Pattontongan"
+            document.querySelector("#map-description").innerText = "{{ maps[0].content }}"
         })
 
         document.querySelector("#banpol").addEventListener('mouseover', function(e){
             e.target.attributes.fill.nodeValue = "#B99B27"
             document.querySelector("#map-title").innerText = "Dusun Bangun Polea"
+			document.querySelector("#map-description").innerText = "{{ maps[1].content }}"
         })
 
         document.querySelector("#banpol").addEventListener('mouseout', function(e){
             e.target.attributes.fill.nodeValue = "#EFF5BF"
             document.querySelector("#map-title").innerText = "Desa Pattontongan"
+			document.querySelector("#map-description").innerText = "{{ maps[0].content }}"
         })
 
         document.querySelector("#salu").addEventListener('mouseover', function(e){
             e.target.attributes.fill.nodeValue = "#4444C8"
             document.querySelector("#map-title").innerText = "Dusun Salu"
+			document.querySelector("#map-description").innerText = "{{ maps[4].content }}"
         })
 
         document.querySelector("#salu").addEventListener('mouseout', function(e){
             e.target.attributes.fill.nodeValue = "#EFF5BF"
             document.querySelector("#map-title").innerText = "Desa Pattontongan"
+			document.querySelector("#map-description").innerText = "{{ maps[0].content }}"
         })
 
         document.querySelector("#pattontongan").addEventListener('mouseover', function(e){
             e.target.attributes.fill.nodeValue = "#28B9B4"
             document.querySelector("#map-title").innerText = "Dusun Pattontongan"
+			document.querySelector("#map-description").innerText = "{{ maps[3].content }}"
         })
 
         document.querySelector("#pattontongan").addEventListener('mouseout', function(e){
             e.target.attributes.fill.nodeValue = "#EFF5BF"
             document.querySelector("#map-title").innerText = "Desa Pattontongan"
+			document.querySelector("#map-description").innerText = "{{ maps[0].content }}"
         })
 
     </script>

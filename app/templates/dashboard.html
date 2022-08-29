@@ -17,10 +17,33 @@
         <a role="button" class="btn btn-success" href="/input/wisata">Input Wisata</a>
         <a role="button" class="btn btn-danger" href="/input/peta">Input Peta</a>
         <a role="button" class="btn btn-warning" href="/input/visi-misi">Input Visi Misi</a>
-        <!-- <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-light">Light</button>
+        {% if role == 'Admin' %}
+        <a role="button" class="btn btn-info" href='/input/user'>Input User</a>
+        {% endif %}
+        <!-- <button type="button" class="btn btn-light">Light</button>
         <button type="button" class="btn btn-dark">Dark</button> -->
 
+        {% if role == 'Admin' %}
+        {% for user in user %}
+        <div>
+            <p>{{ user.username }}</p>
+            <p>{{ user.name }}</p>
+            <p>{{ user.password }}</p>
+        </div>
+        <div>
+            <div class="d-flex button-group ms-auto">
+                <form action="/edit/{{ endpoint }}/{{ user.id }}" method="post">
+                    <input type="hidden" name="id" class="form-control" value="{{ user.id }}">
+                    <button type="edit" class="btn button primary-button">Edit</button>
+                </form>
+                <form action="/delete/{{ endpoint }}" method="post">
+                    <input type="hidden" name="id" class="form-control" value="{{ user.id }}">
+                    <button type="delete" class="btn button primary-button">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
         <div class="other-news">
             <h3 class="font-bold text-2xl mb-3">Berita Lainnya</h3>
             {% for article in data %}
@@ -33,7 +56,7 @@
                         <p class="card-content">{{ article.content }}...</p>
                         <div class="card-author mt-3">
                             <div class="author-img">
-                                
+                                <img src="app\static\img\user.png" alt="">
                             </div>
                             <div class="author-detail" style="flex: 1;">
                                 <strong>{{ article.author }}</strong>

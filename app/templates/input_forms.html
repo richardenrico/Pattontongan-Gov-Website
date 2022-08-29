@@ -13,19 +13,48 @@
   <body>
     <form action="/save/{{ endpoint }}" method="post">
         <div class="form-group">
+          {% if endpoint == 'user' %}
+          <label>Username</label>
+          <input type="text" class="form-control"  name="username" value="{{ user.username }}">
+          {% else %}
           <label>Title</label>
           <input type="text" class="form-control"  name="title" value="{{ data.title }}">
+          {% endif %}
         </div>
         <div class="form-group">
+          {% if endpoint == 'user' %}
+          <label>Nama</label>
+          <input type="text" class="form-control"  name="name" value="{{ user.name }}">
+          {% else %}
           <label>Sampul</label>
           <input type="text" class="form-control"  name="cover" value="{{ data.cover }}">
+          {% endif %}
         </div>
         <div class="form-group">
+          {% if endpoint == 'user' %}
+          <label>Password</label>
+          <input type="text" class="form-control"  name="password" value="{{ user.password }}">
+          {% else %}
           <label>Konten</label>
           <input type="text" class="form-control"  name="content" value="{{ data.content }}" >
+          {% endif %}
+        </div>
+        {% if role == 'Admin' %}
+        <div class="form-group">
+          <label>Role</label>
+          <select class="form-select" aria-label="Default select example" name="role" value="{{ user.role }}">
+            <option selected>Pilih Role</option>
+            <option value="admin">Admin</option>
+            <option value="author">Author</option>
+          </select>
+        {% endif %}
         </div>
         <div class="d-flex flex-row flex-wrap">
+          {% if endpoint == 'user' %}
+          <input type="hidden" name="id" class="form-control" value="{{ user.id }}">
+          {% else %}
           <input type="hidden" name="id" class="form-control" value="{{ data.id }}">
+          {% endif %}
           <button type="submit" class="btn button primary-button mr-4 mt-5">Save</button>
       </div>
       </form>
