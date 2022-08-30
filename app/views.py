@@ -33,6 +33,14 @@ def news():
     pagination = Pagination(page=page, total=len(news), per_page=per_page)
     return render_template("news.html", carousels=carousels, news=paginated_news, pagination=pagination)
 
+@app.route("/visi")
+def village_vision():
+    return render_template("vision.html")
+
+@app.route("/profil")
+def village_profile():
+    return render_template("profile.html")
+
 @app.route('/<endpoint>/<slug>', methods=['GET', 'POST'])
 def detail(endpoint, slug):
     news = Article.objects(category=endpoint, slug=slug).first()
