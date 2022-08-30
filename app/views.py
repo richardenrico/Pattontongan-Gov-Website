@@ -41,6 +41,10 @@ def village_vision():
 def village_profile():
     return render_template("profile.html")
 
+@app.route("/aparatur-desa")
+def village_government():
+    return render_template("government.html")
+
 @app.route('/<endpoint>/<slug>', methods=['GET', 'POST'])
 def detail(endpoint, slug):
     news = Article.objects(category=endpoint, slug=slug).first()
